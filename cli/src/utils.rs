@@ -196,14 +196,14 @@ pub fn get_fork(evm_opts: &EvmOpts, config: &StorageCachingConfig) -> Option<For
     ) -> Option<PathBuf> {
         if evm_opts.no_storage_caching {
             // storage caching explicitly opted out of
-            return None
+            return None;
         }
         let url = evm_opts.fork_url.as_ref()?;
         // cache only if block explicitly pinned
         let block = evm_opts.fork_block_number?;
 
         if config.enable_for_endpoint(url) && config.enable_for_chain_id(chain_id) {
-            return Config::foundry_block_cache_file(chain_id, block)
+            return Config::foundry_block_cache_file(chain_id, block);
         }
 
         None
@@ -218,7 +218,7 @@ pub fn get_fork(evm_opts: &EvmOpts, config: &StorageCachingConfig) -> Option<For
             cache_path: cache_storage,
             chain_id,
         };
-        return Some(fork)
+        return Some(fork);
     }
 
     None
@@ -271,7 +271,7 @@ pub fn print_receipt(receipt: &TransactionReceipt, nonce: U256) -> eyre::Result<
     }
 
     let gas_used = receipt.gas_used.unwrap_or_default();
-    let gas_price = receipt.effective_gas_price.expect("no gas price");
+    let gas_price = receipt.effective_gas_price.unwrap_or_default();
     let paid = format_units(gas_used.mul(gas_price), 18)?;
 
     let check = if receipt.status.unwrap().is_zero() {
