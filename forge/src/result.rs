@@ -56,7 +56,6 @@ pub struct TestResult {
 
     /// Any captured & parsed as strings logs along the test's execution which should
     /// be printed to the user.
-    #[serde(skip)]
     pub logs: Vec<Log>,
 
     /// What kind of test this was
