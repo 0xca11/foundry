@@ -102,10 +102,10 @@ impl CoverageArgs {
     fn build(&self, config: &Config) -> eyre::Result<(Project, ProjectCompileOutput)> {
         // Set up the project
         let project = {
-            let mut project = config.ephemeral_no_artifacts_project()?;
+            let project = config.ephemeral_no_artifacts_project()?;
 
             // Disable the optimizer for more accurate source maps
-            project.solc_config.settings.optimizer.disable();
+            // project.solc_config.settings.optimizer.disable();
 
             project
         };
@@ -152,7 +152,7 @@ impl CoverageArgs {
             let is_test = path.ends_with(".t.sol");
             let is_dependency = path.starts_with("lib");
             if is_test || is_dependency {
-                continue
+                continue;
             }
 
             for mut versioned_source in versioned_sources {
@@ -161,8 +161,8 @@ impl CoverageArgs {
                     let source_maps: HashMap<String, SourceMap> = source_maps
                         .iter()
                         .filter(|(id, _)| {
-                            id.version == versioned_source.version &&
-                                id.source == PathBuf::from(&path)
+                            id.version == versioned_source.version
+                                && id.source == PathBuf::from(&path)
                         })
                         .map(|(id, (_, source_map))| {
                             // TODO: Deploy source map too?
@@ -178,7 +178,7 @@ impl CoverageArgs {
                     .visit_ast(ast)?;
 
                     if items.is_empty() {
-                        continue
+                        continue;
                     }
 
                     map.add_source(path.clone(), versioned_source, items);
